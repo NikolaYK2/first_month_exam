@@ -23,18 +23,18 @@ function App() {
     const resetButton = () => {
         setNum(startNumControl);
     };
-    const maxStyle = num === maxNumControl || startNumControl >= maxNumControl ? s.stopBut : s.go;
-    const minStyle = num === startNumControl || startNumControl >= maxNumControl ? s.stopBut : s.go;
-    const setStyle = disabledSet || startNumControl >= maxNumControl? s.stop : s.go;
+    const maxStyleButton = num === maxNumControl || startNumControl >= maxNumControl ? s.stopBut : s.go;
+    const minStyleButton = num === startNumControl || startNumControl >= maxNumControl ? s.stopBut : s.go;
+    const setStyleButton = disabledSet || startNumControl >= maxNumControl || startNumControl < 0 ? s.stop : s.go;
 
 //SET Значений счетчика=========================================================================
     const setButton = () => {
         if(startNumControl < maxNumControl){
-            setNum(startNumControl)
-            setDisabledSet(true)
+            setNum(startNumControl);
+            setDisabledSet(true);
+            setTextDisplay('')//после нажатия типо отключили надпись
         }
     }
-
 //ERROR==========================================================================================
 
 
@@ -48,15 +48,15 @@ function App() {
                     <Screen valueType='max' title='max value:' callback={setMaxNumControl} startNumControl={startNumControl} maxNumControl={maxNumControl} setDisabledSet={setDisabledSet} num={maxNumControl} setTextDisplay={setTextDisplay}/>
                 </div>
                 <div className="block__container">
-                    <Button isDisabled={startNumControl >= maxNumControl || disabledSet} style={setStyle} callback={setButton} title="set"/>
+                    <Button isDisabled={startNumControl >= maxNumControl || startNumControl < 0 || disabledSet} style={setStyleButton} callback={setButton} title="set"/>
                 </div>
             </div>
 {/*//СЧЕТЧИК=========================================================================================================*/}
             <div className='block'>
                 <Main num={num} maxNumControl={maxNumControl} startNumControl={startNumControl} textDisplay={textDisplay}/>
                 <div className="block__container">
-                    <Button isDisabled={num === maxNumControl || startNumControl >= maxNumControl} style={maxStyle} callback={startButton} title="inc"/>
-                    <Button isDisabled={num === startNumControl || startNumControl >= maxNumControl} style={minStyle} callback={resetButton} title="reset"/>
+                    <Button isDisabled={num === maxNumControl || startNumControl >= maxNumControl} style={maxStyleButton} callback={startButton} title="inc"/>
+                    <Button isDisabled={num === startNumControl || startNumControl >= maxNumControl} style={minStyleButton} callback={resetButton} title="reset"/>
                 </div>
             </div>
         </div>
