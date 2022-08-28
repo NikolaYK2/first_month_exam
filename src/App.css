@@ -1,15 +1,27 @@
 .App {
+    max-width: 700px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10% auto;
+    font-size: 18px;
+}
+.block{
+    width: 250px;
+    margin: 0 auto;
     text-align: center;
-    margin: 20% auto;
     padding: 10px 10px 10px 10px;
-    max-width: 150px;
     border: 2px solid deepskyblue;
     border-radius: 10px;
+    }
+    .block__container{
+        display: flex;
+        justify-content: space-around;
+        border: 2px solid deepskyblue;
+        margin: 10px 0 0 0;
+        padding: 10px 0 10px;
 }
-.container{
-    display: flex;
-    justify-content: space-around;
+
+.block__screen{
     border: 2px solid deepskyblue;
-    margin: 10px 0 0 0;
-    padding: 10px 0 10px;
+    padding: 10px;
 }

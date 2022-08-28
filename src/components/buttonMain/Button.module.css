@@ -1,0 +1,21 @@
+button{
+    font-size: 18px;
+    background-color: deepskyblue;
+    border-radius: 5px;
+    padding: 0 10px 0;
+    cursor: pointer;
+    border: none;
+    box-shadow: 5px 2px 3px black;
+}
+.stopBut{
+    box-shadow: none;
+    transform: scale(0.95);
+}
+.go:active{
+    box-shadow: none;
+    transform: scale(0.95);
+}
+.stop{
+    box-shadow: none;
+    transform: scale(0.95);
+}

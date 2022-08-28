@@ -2,16 +2,22 @@ import React from "react";
 import s from "./Main.module.css";
 
 type MainType = {
-    num: number
+    num: number,
+    startNumControl: number,
+    maxNumControl: number,
+    textDisplay: string,
+
 }
 
 export const Main = (props: MainType) => {
 
-    let stopNum = props.num === 5 ? s.stop : "";
+
+    const stopNum = props.num === props.maxNumControl ? s.stop : "";
+    const display = props.num || props.textDisplay;
 
     return (
         <div className={s.container__meaning}>
-            <h1 className={stopNum}>{props.num}</h1>
+            <h1 className={stopNum}>{display}</h1>
         </div>
     );
 }

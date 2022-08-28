@@ -1,0 +1,14 @@
+.block {
+    display: flex;
+    justify-content: space-between;
+    color:   deepskyblue;
+}
+    .block>input {
+        width: 100px;
+        outline: none;
+        border: none;
+        margin: 5px 0;
+        background-color: deepskyblue;
+        }
+
+

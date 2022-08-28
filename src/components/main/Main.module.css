@@ -1,13 +1,19 @@
 .container__meaning {
     background-color: deepskyblue;
-    height: 50px;
+    height: 76px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+    .container__meaning>h1 {
+        font-weight: 300;
+        margin: 0;
+        padding: 0;
+        line-height: 0;
+        vertical-align: center;
 }
 
-h1{
-    margin: 0;
-    font-weight: 300;
-}
-.stop{
+.stop {
     color: red;
     font-weight: 600;
 }
