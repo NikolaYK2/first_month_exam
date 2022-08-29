@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import s from './Screen.module.css';
 
 export type ValueType = 'max' | 'start'
@@ -20,10 +20,8 @@ export const Screen = (props: ScreenType) => {
         props.callback(newValue, +props.callback);
         props.setDisabledSet(false);
         if (props.valueType === 'max') {
-            if (newValue > props.startNumControl) {
+            if (newValue > props.startNumControl && newValue > 0 && props.startNumControl >= 0) {
                 props.setTextDisplay('go set');
-            } else if(newValue < 0){
-                props.setTextDisplay('error');
             } else {
                 props.setTextDisplay('error');
             }
@@ -35,10 +33,15 @@ export const Screen = (props: ScreenType) => {
             }
         }
     }
+    const styleErrorInput = props.num < 0 || props.startNumControl >= props.maxNumControl ? s.errorInp : s.defaultInp;
+
     return (
         <div className={s.block}>
             {props.title}
-            <input type="number" onChange={onChangeHandler} value={props.num}/>
+            <input type="number"
+                   onChange={onChangeHandler}
+                   value={props.num}
+                   className={styleErrorInput}/>
         </div>
     );
 };

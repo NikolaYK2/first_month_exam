@@ -5,17 +5,18 @@ button{
     padding: 0 10px 0;
     cursor: pointer;
     border: none;
-    box-shadow: 5px 2px 3px black;
 }
 .stopBut{
     box-shadow: none;
     transform: scale(0.95);
 }
-.go:active{
-    box-shadow: none;
-    transform: scale(0.95);
+.go{
+    box-shadow: 5px 2px 3px black;
+    }
+    .go:active{
+        box-shadow: none;
+        transform: scale(0.95);
 }
-.stop{
-    box-shadow: none;
-    transform: scale(0.95);
-}
+    .defaultInp{
+        background-color: #131a3d;
+    }

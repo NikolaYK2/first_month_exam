@@ -11,7 +11,7 @@ type MainType = {
 export const Main = (props: MainType) => {
 
     const stopNumStyle = props.num === props.maxNumControl && props.maxNumControl !== 0 ? s.stop : '';
-    const stopTextStyle = props.maxNumControl <= props.startNumControl ? s.stop : '';
+    const stopTextStyle = props.maxNumControl <= props.startNumControl || props.startNumControl < 0 ? s.stop : '';
 
     const display = props.textDisplay ? props.textDisplay : props.num;
 
