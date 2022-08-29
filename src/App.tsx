@@ -12,7 +12,7 @@ function App() {
     const [startNumControl, setStartNumControl] = useState(startValue);
     const [num, setNum] = useState(startNumControl);
     const [maxNumControl, setMaxNumControl] = useState(maxValue);
-    const [disabledSet, setDisabledSet] = useState(true);
+    const [disabledSet, setDisabledSet] = useState(false);
     const [textDisplay, setTextDisplay] = useState('Go bro!');
 
     const startButton = () => {
@@ -24,15 +24,6 @@ function App() {
         setNum(startNumControl);
     };
 
-    //DISABLED BUTTON=======================================================================================
-    const disabledButtonInc = num === maxNumControl || startNumControl >= maxNumControl || startNumControl < 0 || maxNumControl === 1 ;
-    const disabledButtonRest = num === startNumControl || startNumControl >= maxNumControl || startNumControl < 0;
-    const disabledButtonSet = startNumControl >= maxNumControl || startNumControl < 0 || disabledSet;
-    //STYLE BUTTON=======================================================================
-    const incStyleButton = !disabledSet || disabledButtonInc ? s.stopBut : s.go;
-    const restStyleButton = !disabledSet || disabledButtonRest ? s.stopBut : s.go;
-    const setStyleButton = disabledButtonSet ? s.stopBut : s.go;
-//================================================================================================================
 //SET Значений счетчика=========================================================================
     const setButton = () => {
         if(startNumControl < maxNumControl){
@@ -41,8 +32,50 @@ function App() {
             setTextDisplay('')//после нажатия типо отключили надпись
         }
     }
-//ERROR==========================================================================================
 
+    //DISABLED BUTTON=======================================================================================
+    const disabledButtonInc = num === maxNumControl || startNumControl >= maxNumControl || startNumControl < 0;
+    const disabledButtonRest = num === startNumControl || startNumControl >= maxNumControl || startNumControl < 0;
+    const disabledButtonSet = startNumControl >= maxNumControl || startNumControl < 0 || disabledSet;
+    //STYLE BUTTON=======================================================================
+    const incStyleButton = !disabledSet || disabledButtonInc ? s.stopBut : s.go;
+    const restStyleButton = !disabledSet || disabledButtonRest ? s.stopBut : s.go;
+    const setStyleButton = disabledButtonSet ? s.stopBut : s.go;
+//================================================================================================================
+//LOCALSTOREGA==========================================================================================
+    const setLocalStorage = () => {
+        //сохраняем параметры счетчика / переводим в строку
+            localStorage.setItem("valueStart", JSON.stringify(startNumControl))
+            localStorage.setItem("valueMax", JSON.stringify(maxNumControl))
+    }
+
+    const getFromLocalStorage = () => {
+        //Достаем знаечния
+        let stringStart = localStorage.getItem("valueStart");
+        let stringMax = localStorage.getItem("valueMax");
+
+        if(stringStart) {//Если в переменной что-то лежит, то переводим строку обратно и сетуем значение
+            let newStartNumControl = JSON.parse(stringStart)
+            setStartNumControl(newStartNumControl)
+        }
+        if(stringMax){
+            let newMaxNumControlMax = JSON.parse(stringMax)
+            setMaxNumControl(newMaxNumControlMax)
+        }
+    }
+
+    const clearLocalS = () => {
+        //Полная очистка
+        localStorage.clear();
+        setStartNumControl(0)
+        setMaxNumControl(1)
+    }
+
+    const removeLS = () => {
+        //Удаление конкретного элемента
+        localStorage.removeItem("valueStart");
+        setStartNumControl(0)
+    }
 
     return (
         //SET DATA OPTIONS=======================================================================================
@@ -69,8 +102,12 @@ function App() {
                     />
                 </div>
                 <div className="block__container">
-                    <Button isDisabled={startNumControl >= maxNumControl || startNumControl < 0 || disabledSet} style={setStyleButton} callback={setButton} title="set"/>
+                    <Button isDisabled={disabledButtonSet} style={setStyleButton} callback={setButton} title="set"/>
                 </div>
+                <button onClick={setLocalStorage}>setLS</button>
+                <button onClick={getFromLocalStorage}>getFLS</button>
+                <button onClick={clearLocalS}>clearLS</button>
+                <button onClick={removeLS}>removeLS</button>
             </div>
 {/*//СЧЕТЧИК=========================================================================================================*/}
             <div className='block'>
