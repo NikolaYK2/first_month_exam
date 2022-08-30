@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {Button} from "./components/buttonMain/Button";
 import {Main} from "./components/main/Main";
@@ -15,6 +15,31 @@ function App() {
     const [disabledSet, setDisabledSet] = useState(false);
     const [textDisplay, setTextDisplay] = useState('Go bro!');
 
+//UseEffect=======================================================================================
+    //SAVE VALUE===================================================================================
+
+    useEffect(() => {
+        localStorage.setItem("numStart", JSON.stringify(startNumControl))
+        localStorage.setItem("numMax", JSON.stringify(maxNumControl))
+    }, [startNumControl, maxNumControl])//Принимает два параметра (callback, зависимости) - буду попадать в eseEffect каждый раз когда будет изм. зависимости
+//[startNumControl,maxNumControl] - те самые зависимости которые будут меняться
+//Достаем знаечния======================================================================
+    let stringStart = localStorage.getItem("numStart");
+    let stringMax = localStorage.getItem("numMax");
+
+    useEffect(() => {
+        if (stringStart) {//Если в переменной что-то лежит, то переводим строку обратно и сетуем значение
+            let newStartNumControl = JSON.parse(stringStart)
+            setStartNumControl(newStartNumControl)
+        }
+        if (stringMax) {
+            let newMaxNumControlMax = JSON.parse(stringMax)
+            setMaxNumControl(newMaxNumControlMax)
+        }
+    }, [])//Принимаем пустой массив зависимостей, так как отработать нужно единожды. Я хочу получить данные из LS когда мое приложение загрузится
+// =============================================================================================
+
+    //Работа счетчика=========================================================================
     const startButton = () => {
         if(num < maxNumControl) {
             setNum(num + 1)
@@ -23,10 +48,13 @@ function App() {
     const resetButton = () => {
         setNum(startNumControl);
     };
+//==============================================================================================
 
 //SET Значений счетчика=========================================================================
     const setButton = () => {
         if(startNumControl < maxNumControl){
+            // localStorage.setItem("numStart", JSON.stringify(startNumControl))
+            // localStorage.setItem("numMax", JSON.stringify(maxNumControl))
             setNum(startNumControl);
             setDisabledSet(true);
             setTextDisplay('')//после нажатия типо отключили надпись
@@ -42,40 +70,41 @@ function App() {
     const restStyleButton = !disabledSet || disabledButtonRest ? s.stopBut : s.go;
     const setStyleButton = disabledButtonSet ? s.stopBut : s.go;
 //================================================================================================================
+
 //LOCALSTOREGA==========================================================================================
-    const setLocalStorage = () => {
-        //сохраняем параметры счетчика / переводим в строку
-            localStorage.setItem("valueStart", JSON.stringify(startNumControl))
-            localStorage.setItem("valueMax", JSON.stringify(maxNumControl))
-    }
-
-    const getFromLocalStorage = () => {
-        //Достаем знаечния
-        let stringStart = localStorage.getItem("valueStart");
-        let stringMax = localStorage.getItem("valueMax");
-
-        if(stringStart) {//Если в переменной что-то лежит, то переводим строку обратно и сетуем значение
-            let newStartNumControl = JSON.parse(stringStart)
-            setStartNumControl(newStartNumControl)
-        }
-        if(stringMax){
-            let newMaxNumControlMax = JSON.parse(stringMax)
-            setMaxNumControl(newMaxNumControlMax)
-        }
-    }
-
-    const clearLocalS = () => {
-        //Полная очистка
-        localStorage.clear();
-        setStartNumControl(0)
-        setMaxNumControl(1)
-    }
-
-    const removeLS = () => {
-        //Удаление конкретного элемента
-        localStorage.removeItem("valueStart");
-        setStartNumControl(0)
-    }
+//     const setLocalStorage = () => {
+//         //сохраняем параметры счетчика / переводим в строку
+//             localStorage.setItem("valueStart", JSON.stringify(startNumControl))
+//             localStorage.setItem("valueMax", JSON.stringify(maxNumControl))
+//     }
+//
+//     const getFromLocalStorage = () => {
+//         //Достаем знаечния
+//         let stringStart = localStorage.getItem("valueStart");
+//         let stringMax = localStorage.getItem("valueMax");
+//
+//         if(stringStart) {//Если в переменной что-то лежит, то переводим строку обратно и сетуем значение
+//             let newStartNumControl = JSON.parse(stringStart)
+//             setStartNumControl(newStartNumControl)
+//         }
+//         if(stringMax){
+//             let newMaxNumControlMax = JSON.parse(stringMax)
+//             setMaxNumControl(newMaxNumControlMax)
+//         }
+//     }
+//
+//     const clearLocalS = () => {
+//         //Полная очистка
+//         localStorage.clear();
+//         setStartNumControl(0)
+//         setMaxNumControl(1)
+//     }
+//
+//     const removeLS = () => {
+//         //Удаление конкретного элемента
+//         localStorage.removeItem("valueStart");
+//         setStartNumControl(0)
+//     }
 
     return (
         //SET DATA OPTIONS=======================================================================================
@@ -104,10 +133,6 @@ function App() {
                 <div className="block__container">
                     <Button isDisabled={disabledButtonSet} style={setStyleButton} callback={setButton} title="set"/>
                 </div>
-                <button onClick={setLocalStorage}>setLS</button>
-                <button onClick={getFromLocalStorage}>getFLS</button>
-                <button onClick={clearLocalS}>clearLS</button>
-                <button onClick={removeLS}>removeLS</button>
             </div>
 {/*//СЧЕТЧИК=========================================================================================================*/}
             <div className='block'>
