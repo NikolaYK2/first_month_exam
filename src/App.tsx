@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
-import {Button} from "./components/buttonMain/Button";
-import {Main} from "./components/main/Main";
-import s from './components/buttonMain/Button.module.css';
-import {Screen} from "./components/screen/Screen";
+import {Button} from "./components/button/Button";
+import s from './components/button/Button.module.css';
+import {Setting} from "./components/setting/Setting";
+import {Display} from "./components/setting/main/Display";
 
 function App() {
 
@@ -43,8 +43,8 @@ function App() {
     }, [])//Принимаем пустой массив зависимостей, так как отработать нужно единожды. Я хочу получить данные из LS когда мое приложение загрузится
 //SVAE COUNTER======================================================================================================================
     useEffect(() => {
-            localStorage.setItem('counter', JSON.stringify(counterSwitching))
-        },[counterSwitching])
+        localStorage.setItem('counter', JSON.stringify(counterSwitching))
+    }, [counterSwitching])
 
     let counter = localStorage.getItem('counter')
     useEffect(() => {
@@ -52,11 +52,11 @@ function App() {
             let newCounterSwitching = JSON.parse(counter);
             setCounterSwitching(newCounterSwitching)
         }
-    },[])
+    }, [])
 // ==================================================================================================================
     //Работа счетчика=========================================================================
     const startButton = () => {
-        if(num < maxNumControl) {
+        if (num < maxNumControl) {
             setNum(num + 1)
         }
     };
@@ -67,7 +67,7 @@ function App() {
 
 //SET Значений счетчика=========================================================================
     const setButton = () => {
-        if(startNumControl < maxNumControl){
+        if (startNumControl < maxNumControl) {
             // localStorage.setItem("numStart", JSON.stringify(startNumControl))
             // localStorage.setItem("numMax", JSON.stringify(maxNumControl))
             setNum(startNumControl);
@@ -122,20 +122,54 @@ function App() {
 //         localStorage.removeItem("valueStart");
 //         setStartNumControl(0)
 //     }
+//==================================================================================================================
+
 //Кнопка переключения setting=================================================================================================
-    const switchingHandler =()=>{
+    const switchingHandler = () => {
         setSwitchingSetting(true)
         setDisabledSet(false);
     }
 //button counterSwitching===========================================================================
-    const counterSwitchingHandler =()=>{
-        if(!counterSwitching){
+    const counterSwitchingHandler = () => {
+        if (!counterSwitching) {
             setCounterSwitching(true)
         } else {
             setCounterSwitching(false)
         }
     }
 // =======================================================================================================
+
+    const settingMain = <>
+        <Setting disabledButtonSet={disabledButtonSet}
+                 startNumControl={startNumControl}
+                 maxNumControl={maxNumControl}
+                 setStyleButton={setStyleButton}
+
+                 setStartNumControl={setStartNumControl}
+                 setMaxNumControl={setMaxNumControl}
+                 setTextDisplay={setTextDisplay}
+                 setDisabledSet={setDisabledSet}
+                 setButton={setButton}/>
+    </>
+
+    const displayMain = <>
+        <Display num={num}
+                 disabledButtonInc={disabledButtonInc}
+                 disabledButtonSet={disabledButtonSet}
+                 disabledButtonRest={disabledButtonRest}
+                 startNumControl={startNumControl}
+                 maxNumControl={maxNumControl}
+                 textDisplay={textDisplay}
+                 incStyleButton={incStyleButton}
+                 restStyleButton={restStyleButton}
+                 counterSwitching={counterSwitching}
+                 settingButton={settingButton}
+
+                 startButton={startButton}
+                 resetButton={resetButton}
+                 switchingHandler={switchingHandler}/>
+
+    </>
     return (
         //SET DATA OPTIONS=======================================================================================
         <>
@@ -145,78 +179,13 @@ function App() {
             <div className="App">
                 {counterSwitching ?
                     switchingSetting ?
-                        <div className='block'>
-                            <div className='block__screen'>
-                                <Screen valueType='start'
-                                        title='start value:'
-                                        callback={setStartNumControl}
-                                        startNumControl={startNumControl}
-                                        maxNumControl={maxNumControl}
-                                        setDisabledSet={setDisabledSet}
-                                        num={startNumControl}
-                                        setTextDisplay={setTextDisplay}
-                                />
-                                <Screen valueType='max'
-                                        title='max value:'
-                                        callback={setMaxNumControl}
-                                        startNumControl={startNumControl}
-                                        maxNumControl={maxNumControl}
-                                        setDisabledSet={setDisabledSet}
-                                        num={maxNumControl}
-                                        setTextDisplay={setTextDisplay}
-                                />
-                            </div>
-                            <div className="block__container">
-                                <Button isDisabled={disabledButtonSet} style={setStyleButton} callback={setButton}
-                                        title="set"/>
-                            </div>
-                        </div> :
-
-                        <div className='block'>
-                            <Main num={num} maxNumControl={maxNumControl} startNumControl={startNumControl}
-                                  textDisplay={textDisplay}/>
-                            <div className="block__container">
-                                <Button isDisabled={!disabledButtonSet || disabledButtonInc} style={incStyleButton}
-                                        callback={startButton} title="inc"/>
-                                <Button isDisabled={!disabledButtonSet || disabledButtonRest} style={restStyleButton}
-                                        callback={resetButton} title="reset"/>
-                                <Button style={settingButton} callback={switchingHandler} title="setting"/>
-                            </div>
-                        </div>
+                        <>{settingMain}</>
+                        :
+                        <>{displayMain}</>
                     :
                     <>
-                        <div className='block'>
-                            <div className='block__screen'>
-                                <Screen valueType='start'
-                                        title='start value:'
-                                        callback={setStartNumControl}
-                                        startNumControl={startNumControl}
-                                        maxNumControl={maxNumControl}
-                                        setDisabledSet={setDisabledSet}
-                                        num={startNumControl}
-                                        setTextDisplay={setTextDisplay}
-                                />
-                                <Screen valueType='max'
-                                        title='max value:'
-                                        callback={setMaxNumControl}
-                                        startNumControl={startNumControl}
-                                        maxNumControl={maxNumControl}
-                                        setDisabledSet={setDisabledSet}
-                                        num={maxNumControl}
-                                        setTextDisplay={setTextDisplay}
-                                />
-                            </div>
-                            <div className="block__container">
-                                <Button isDisabled={disabledButtonSet} style={setStyleButton} callback={setButton} title="set"/>
-                            </div>
-                        </div>
-                        <div className='block'>
-                            <Main num={num} maxNumControl={maxNumControl} startNumControl={startNumControl} textDisplay={textDisplay}/>
-                            <div className="block__container">
-                                <Button isDisabled={!disabledButtonSet || disabledButtonInc} style={incStyleButton} callback={startButton} title="inc"/>
-                                <Button isDisabled={!disabledButtonSet || disabledButtonRest} style={restStyleButton} callback={resetButton} title="reset"/>
-                            </div>
-                        </div>
+                        {settingMain}
+                        {displayMain}
                     </>
                 }
             </div>
