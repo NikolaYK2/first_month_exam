@@ -4,6 +4,7 @@ export type InitialiseStateType = {
     num: number,
     disabledSet: boolean,
     textDisplay: string,
+
 }
 
 const initialiseState: InitialiseStateType = {

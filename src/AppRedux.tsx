@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {Button} from "./components/button/Button";
 import s from './components/button/Button.module.css';
 import {CountSetting} from "./components/setting/CountSetting";
 import {CountDisplay} from "./components/display/CountDisplay";
 import {useDispatch} from "react-redux";
-import {useAppSelector} from "./redux/store";
 import {setDisableAC} from "./redux/settingCounterReducer";
+import {useAppSelector} from "./redux/store";
+
 
 function AppRedux() {
 
@@ -20,39 +21,25 @@ function AppRedux() {
 //Переключение между счетчиками=======================================================================
     const [counterSwitching, setCounterSwitching] = useState(false);
 
-//UseEffect=======================================================================================
-    //SAVE VALUE===================================================================================
-//     useEffect(() => {
-//         localStorage.setItem("numStart", JSON.stringify(startNumControl))
-//         localStorage.setItem("numMax", JSON.stringify(maxNumControl))
-//     }, [startNumControl, maxNumControl])//Принимает два параметра (callback, зависимости) - буду попадать в eseEffect каждый раз когда будет изм. зависимости
-// //[startNumControl,maxNumControl] - те самые зависимости которые будут меняться
-// //Достаем знаечния======================================================================
-//     let stringStart = localStorage.getItem("numStart");
-//     let stringMax = localStorage.getItem("numMax");
-//
-//     useEffect(() => {
-//         if (stringStart) {//Если в переменной что-то лежит, то переводим строку обратно и сетуем значение
-//             let newStartNumControl = JSON.parse(stringStart)
-//             setStartNumControl(newStartNumControl)
-//         }
-//         if (stringMax) {
-//             let newMaxNumControlMax = JSON.parse(stringMax)
-//             setMaxNumControl(newMaxNumControlMax)
-//         }
-//     }, [])//Принимаем пустой массив зависимостей, так как отработать нужно единожды. Я хочу получить данные из LS когда мое приложение загрузится
-// //SVAE COUNTER======================================================================================================================
-//     useEffect(() => {
-//         localStorage.setItem('counter', JSON.stringify(counterSwitching))
-//     }, [counterSwitching])
-//
-//     let counter = localStorage.getItem('counter')
-//     useEffect(() => {
-//         if (counter) {
-//             let newCounterSwitching = JSON.parse(counter);
-//             setCounterSwitching(newCounterSwitching)
-//         }
-//     }, [])
+//SAVE COUNTER and COUNTER-SETTING======================================================================================================================
+    useEffect(() => {
+        localStorage.setItem('counter', JSON.stringify(counterSwitching))
+        localStorage.setItem('counterSetting', JSON.stringify(switchingSetting))
+    }, [counterSwitching,switchingSetting])
+
+    let counter = localStorage.getItem('counter')
+    let counterSetting = localStorage.getItem('counterSetting')
+    useEffect(() => {
+        let newCounterSwitching = counter ? JSON.parse(counter) : undefined;
+        setCounterSwitching(newCounterSwitching)
+
+        let newSwitchingSetting = counterSetting ? JSON.parse(counterSetting) : undefined;
+        setSwitchingSetting(newSwitchingSetting)
+        // if (counter) {
+        //     let newCounterSwitching = JSON.parse(counter);
+        //     setCounterSwitching(newCounterSwitching)
+        // }
+    }, [])
 
     //DISABLED BUTTON=======================================================================================
     const disabledButtonInc = counterNum === counterMax || counterStart >= counterMax || counterStart < 0;
