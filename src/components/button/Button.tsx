@@ -8,9 +8,13 @@ type ButtonType = {
 }
 export const Button = (props: ButtonType) => {
 
+
     const onClickHandler = () => {
         props.callback();
     }
+
+
+
     return (
         <div>
             <button disabled={props.isDisabled} className={props.style} onClick={onClickHandler}>{props.title}</button>

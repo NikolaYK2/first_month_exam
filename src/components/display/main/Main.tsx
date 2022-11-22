@@ -3,15 +3,15 @@ import s from "./Main.module.css";
 
 type MainType = {
     num: number,
-    startNumControl: number,
-    maxNumControl: number,
+    counterMax: number,
+    counterStart: number,
     textDisplay: string,
 }
 
 export const Main = (props: MainType) => {
 
-    const stopNumStyle = props.num === props.maxNumControl && props.maxNumControl !== 0 ? s.stop : '';
-    const stopTextStyle = props.maxNumControl <= props.startNumControl || props.startNumControl < 0 ? s.stop : '';
+    const stopNumStyle = props.num === props.counterMax && props.counterMax !== 0 ? s.stop : '';
+    const stopTextStyle = props.counterMax <= props.counterStart || props.counterStart < 0 ? s.stop : '';
 
     const display = props.textDisplay ? props.textDisplay : props.num;
 
@@ -21,3 +21,4 @@ export const Main = (props: MainType) => {
         </div>
     );
 }
+
